@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorTextPrimary">@android:color/primary_text_light</color>
     <color name="colorTextSecondary">@android:color/tertiary_text_light</color>
-    <color name="colorToolbarReveal">#2E7D32</color>
+    <color name="colorToolbarReveal">#283593</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorWindowBackground">#E2E2E2</color>
+
 </resources>
