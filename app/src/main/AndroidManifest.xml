@@ -27,7 +27,7 @@
                 android:resource="@xml/searchable"/>
 
         </activity>
-
+0
     </application>
 
 </manifest>
