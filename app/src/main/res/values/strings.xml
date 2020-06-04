@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">CodeTest-Gumtree</string>
+
+    <string name="app_name">Weather App</string>
+    <string name="menu_search_title">Search</string>
+    <string name="main_fragment_empty_message_default">Search your city to see your local weather</string>
+    <string name="main_fragment_empty_message_network_error">Sorry, your search did not return any results.</string>
+    <string name="main_fragment_snackbar_message_no_network">Looks like you are offline.</string>
+
 </resources>
