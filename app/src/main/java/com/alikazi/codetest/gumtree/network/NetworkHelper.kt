@@ -68,7 +68,7 @@ object NetworkHelper {
             .scheme(Constants.URL_SCHEME_HTTPS)
             .authority(Constants.URL_AUTHORITY)
             .appendPath(Constants.URL_PATH_DATA)
-            .appendPath(Constants.URL_PATH_CURRENT_WEATHER)
+            .appendPath(Constants.URL_PATH_WEATHER)
             .appendQueryParameter(Constants.URL_QUERY_API_KEY, Constants.API_KEY)
 
     private fun roundToTwoDecimalPoints(double: Double): String = DecimalFormat(Constants.DECIMAL_FORMAT).format(double)
