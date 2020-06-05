@@ -10,7 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Constants
-import com.alikazi.codetest.gumtree.utils.circularReveal
+import com.alikazi.codetest.gumtree.utils.circularRevealAnimation
 
 class MySearchView(private val activity: Activity,
                    private val revealToolbar: Toolbar) {
@@ -73,7 +73,7 @@ class MySearchView(private val activity: Activity,
     }
 
     fun animateSearchView(reveal: Boolean) {
-        activity.circularReveal(revealToolbar, 0, true, reveal)
+        activity.circularRevealAnimation(revealToolbar, 0, true, reveal)
     }
 
     fun getSearchMenuItem(): MenuItem? {
