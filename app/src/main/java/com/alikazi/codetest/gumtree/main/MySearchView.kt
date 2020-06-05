@@ -15,12 +15,8 @@ import com.alikazi.codetest.gumtree.utils.circularRevealAnimation
 class MySearchView(private val activity: Activity,
                    private val revealToolbar: Toolbar) {
 
-    companion object {
-        private var searchViewEventsListener: SearchViewEventsListener? = null
-
-        fun setSearchViewEventsListener(searchViewEventsListener: SearchViewEventsListener) {
-            Companion.searchViewEventsListener = searchViewEventsListener
-        }
+    fun setSearchViewEventsListener(listener: SearchViewEventsListener) {
+        searchViewEventsListener = listener
     }
 
     init {
@@ -29,6 +25,7 @@ class MySearchView(private val activity: Activity,
 
     private lateinit var searchView: SearchView
     private lateinit var searchMenuItem: MenuItem
+    private var searchViewEventsListener: SearchViewEventsListener? = null
 
     private fun initSearchView() {
         revealToolbar.inflateMenu(R.menu.menu_search)

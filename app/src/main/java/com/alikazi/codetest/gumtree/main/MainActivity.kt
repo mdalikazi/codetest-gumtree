@@ -18,25 +18,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(mainToolbar)
         setupSearchViewAndRevealToolbar()
-
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, MainFragment())
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commitNow()
+            goToMainFragment()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
-    }
-
-    private fun setupSearchViewAndRevealToolbar() {
-        customSearchView = MySearchView(this, revealToolbar)
-        revealToolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -48,6 +37,22 @@ class MainActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun setupSearchViewAndRevealToolbar() {
+        customSearchView = MySearchView(this, revealToolbar)
+        revealToolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    private fun goToMainFragment() {
+        val fragment = MainFragment()
+        customSearchView.setSearchViewEventsListener(fragment)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.mainContainer, fragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commitNow()
     }
 
     override fun onBackPressed() {

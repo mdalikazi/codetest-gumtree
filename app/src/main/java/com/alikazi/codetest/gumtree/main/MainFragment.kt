@@ -6,23 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.alikazi.codetest.gumtree.R
+import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.Injector
 import com.alikazi.codetest.gumtree.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
 
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ViewModelProviders shows deprecated but
-        // the proposed replacement does not make sense
-        // We need to define a lifecycle owner, in this case the MainFragment
-        mainViewModel = ViewModelProviders.of(
+        /**
+         * Even though [androidx.lifecycle.ViewModelProviders] is deprecated, it must be used
+         * because using [ViewModelProvider] takes activity context which
+         * registers the ViewModel to both activity & fragment and
+         * causes an extra trigger on observed LiveData.
+         */
+        @Suppress("DEPRECATION")
+        // Using full class name to avoid deprecated warning in import
+        mainViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
             Injector.provideViewModelFactory())
             .get(MainViewModel::class.java)
@@ -35,5 +40,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mainFragmentProgressBar
         mainFragmentEmptyMessageTextView
+    }
+
+    override fun onSearchQuerySubmit(query: String) {
+        DLog.d("search query $query")
     }
 }

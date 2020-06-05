@@ -22,16 +22,17 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         fetchSomethingFromRepository {
             if (query.isNumeric() && query.length == 5) {
                 // Its ZIP code
-
+                repository.getWeatherByZipCode(query.toInt())
             } else {
                 // Its City name
+                repository.getWeatherByCity(query)
             }
         }
     }
 
     fun fetchWeatherWithLocation(location: Location) {
         fetchSomethingFromRepository {
-
+            repository.getWeatherByLocation(location)
         }
     }
 
