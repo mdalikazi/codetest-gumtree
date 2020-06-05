@@ -1,9 +1,15 @@
 package com.alikazi.codetest.gumtree.network
 
+import android.location.Location
+import android.net.Uri
+import com.alikazi.codetest.gumtree.utils.Constants
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Url
+import java.net.URL
+import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
 object NetworkHelper {
@@ -15,7 +21,6 @@ object NetworkHelper {
             .build()
 
         val retrofit = Retrofit.Builder()
-                // TODO ADD BASE URL
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -24,8 +29,33 @@ object NetworkHelper {
     }
 
     interface Network {
-        @GET // TODO URL
+        @GET
         suspend fun fetchWeather(): String
     }
+
+    fun getCityWeatherUrl(cityName: String): String {
+        val builder = getBuilderWithBaseUrl()
+            .appendQueryParameter(Constants.URL_QUERY_CITY, cityName)
+            .appendQueryParameter(Constants.URL_QUERY_API_KEY, Constants.API_KEY)
+
+        return URL(builder.build().toString()).toString()
+    }
+
+    fun getLatLonWeatherUrl(location: Location): String {
+        val builder = getBuilderWithBaseUrl()
+            .appendQueryParameter(Constants.URL_QUERY_LAT, roundToTwoDecimalPoints(location.latitude))
+            .appendQueryParameter(Constants.URL_QUERY_LON, roundToTwoDecimalPoints(location.longitude))
+
+        return URL(builder.build().toString()).toString()
+    }
+
+    private fun getBuilderWithBaseUrl(): Uri.Builder =
+        Uri.Builder()
+            .scheme(Constants.URL_SCHEME_HTTPS)
+            .authority(Constants.URL_AUTHORITY)
+            .appendPath(Constants.URL_PATH_DATA)
+            .appendPath(Constants.URL_PATH_CURRENT_WEATHER)
+
+    private fun roundToTwoDecimalPoints(double: Double): String = DecimalFormat(Constants.DECIMAL_FORMAT).format(double)
 
 }
