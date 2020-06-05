@@ -28,9 +28,17 @@ object NetworkHelper {
         retrofit.create(Network::class.java)
     }
 
+    fun getNetworkService() = service
+
     interface Network {
         @GET
-        suspend fun fetchWeather(): String
+        suspend fun fetchWeatherByCity(): String
+
+        @GET
+        suspend fun fetchWeatherByZipCode(): String
+
+        @GET
+        suspend fun fetchWeatherByLatLon(): String
     }
 
     fun getCityWeatherUrl(cityName: String): String {
