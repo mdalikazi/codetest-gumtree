@@ -4,6 +4,6 @@
     <string name="menu_search_title">Search</string>
     <string name="main_fragment_empty_message_default">Search your city to see your local weather</string>
     <string name="main_fragment_empty_message_network_error">Sorry, your search did not return any results.</string>
-    <string name="main_fragment_snackbar_message_no_network">Looks like you are offline.</string>
+    <string name="main_fragment_snackbar_message_offline">Looks like you are offline. Check your internet connection.</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.alikazi.codetest.gumtree.network
 import android.location.Location
 import android.net.Uri
 import com.alikazi.codetest.gumtree.utils.Constants
+import com.alikazi.codetest.gumtree.utils.DLog
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,14 +46,18 @@ object NetworkHelper {
         val builder = getBuilderWithBaseUrl()
             .appendQueryParameter(Constants.URL_QUERY_CITY, cityName)
 
-        return URL(builder.build().toString()).toString()
+        val url = URL(builder.build().toString()).toString()
+        DLog.d("url $url")
+        return url
     }
 
     fun getZipCodeWeatherUrl(zipCode: Int): String {
         val builder = getBuilderWithBaseUrl()
             .appendQueryParameter(Constants.URL_QUERY_ZIP, zipCode.toString())
 
-        return URL(builder.build().toString()).toString()
+        val url = URL(builder.build().toString()).toString()
+        DLog.d("url $url")
+        return url
     }
 
     fun getLatLonWeatherUrl(location: Location): String {
@@ -60,7 +65,9 @@ object NetworkHelper {
             .appendQueryParameter(Constants.URL_QUERY_LAT, roundToTwoDecimalPoints(location.latitude))
             .appendQueryParameter(Constants.URL_QUERY_LON, roundToTwoDecimalPoints(location.longitude))
 
-        return URL(builder.build().toString()).toString()
+        val url = URL(builder.build().toString()).toString()
+        DLog.d("url $url")
+        return url
     }
 
     private fun getBuilderWithBaseUrl(): Uri.Builder =

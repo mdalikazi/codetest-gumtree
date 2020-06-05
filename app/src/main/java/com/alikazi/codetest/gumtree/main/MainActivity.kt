@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         val fragment = MainFragment()
         customSearchView.setSearchViewEventsListener(fragment)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.mainContainer, fragment)
+            .replace(R.id.fragmentContainer, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commitNow()
     }

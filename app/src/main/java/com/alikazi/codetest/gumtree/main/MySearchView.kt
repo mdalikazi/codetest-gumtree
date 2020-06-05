@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Constants
+import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.circularRevealAnimation
 
 class MySearchView(private val activity: Activity,
@@ -41,7 +42,7 @@ class MySearchView(private val activity: Activity,
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    Log.d(Constants.LOG_TAG, "onQueryTextChange newText: $query")
+                    DLog.d("Search query $query")
                     searchViewEventsListener?.onSearchQuerySubmit(query)
                     searchView.clearFocus()
                     return true

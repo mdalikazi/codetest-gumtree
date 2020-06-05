@@ -1,10 +1,12 @@
 package com.alikazi.codetest.gumtree.viewmodels
 
 import android.location.Location
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alikazi.codetest.gumtree.network.Repository
+import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.isNumeric
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -12,19 +14,21 @@ import java.lang.Exception
 
 class MainViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _errors = MutableLiveData<String>()
-    val errors get() = _errors
+    private val _errors = MutableLiveData<Exception>()
+    val errors: LiveData<Exception> get() = _errors
 
     private val _isRefreshing = MutableLiveData<Boolean>()
-    val isRefreshing get() = _isRefreshing
+    val isRefreshing: LiveData<Boolean> get() = _isRefreshing
 
     fun fetchWeatherWithQuery(query: String) {
         fetchSomethingFromRepository {
             if (query.isNumeric() && query.length == 5) {
                 // Its ZIP code
+                DLog.d("Its zip code")
                 repository.getWeatherByZipCode(query.toInt())
             } else {
                 // Its City name
+                DLog.d("Its city")
                 repository.getWeatherByCity(query)
             }
         }
@@ -48,7 +52,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                     _isRefreshing.value = true
                     block()
                 } catch (e: Exception) {
-                    _errors.value = e.message
+                    _errors.postValue(e)
                 } finally {
                     _isRefreshing.value = false
                 }

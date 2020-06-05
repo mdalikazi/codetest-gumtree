@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.Injector
+import com.alikazi.codetest.gumtree.utils.showSnackbar
 import com.alikazi.codetest.gumtree.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.net.UnknownHostException
 
 class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
 
@@ -31,6 +34,20 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
             this,
             Injector.provideViewModelFactory())
             .get(MainViewModel::class.java)
+
+        mainViewModel.isRefreshing.observe(this, Observer {
+            mainFragmentProgressBar.visibility = if (it) View.VISIBLE else View.GONE
+        })
+
+        mainViewModel.errors.observe(this, Observer {
+            it.let {
+                if (it is UnknownHostException) {
+                    mainFragmentContainer.showSnackbar(getString(R.string.main_fragment_snackbar_message_offline))
+                } else {
+                    mainFragmentContainer.showSnackbar(it.toString())
+                }
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,6 +60,10 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
     }
 
     override fun onSearchQuerySubmit(query: String) {
-        DLog.d("search query $query")
+        mainViewModel.fetchWeatherWithQuery(query)
+    }
+
+    private fun showRefreshing() {
+
     }
 }
