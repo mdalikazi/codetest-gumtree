@@ -32,13 +32,13 @@ object NetworkHelper {
 
     interface Network {
         @GET
-        suspend fun fetchWeatherByCity(): String
+        suspend fun fetchWeatherByCity(@Url cityUrl: String): String
 
         @GET
-        suspend fun fetchWeatherByZipCode(): String
+        suspend fun fetchWeatherByZipCode(@Url zipUrl: String): String
 
         @GET
-        suspend fun fetchWeatherByLatLon(): String
+        suspend fun fetchWeatherByLatLon(@Url locationUrl: String): String
     }
 
     fun getCityWeatherUrl(cityName: String): String {

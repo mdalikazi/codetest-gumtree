@@ -12,9 +12,19 @@ import androidx.core.content.ContextCompat
 import com.alikazi.codetest.gumtree.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.SnackbarContentLayout
+import java.lang.NumberFormatException
 
 fun View.showSnackbar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
+}
+
+fun String.isNumeric(): Boolean {
+    try {
+        this.toInt()
+    } catch (e: NumberFormatException) {
+        return false
+    }
+    return true
 }
 
 fun Context.isNetworkConnected(): Boolean {
@@ -24,8 +34,8 @@ fun Context.isNetworkConnected(): Boolean {
     return networkInfo != null && networkInfo.isConnected
 }
 
-fun Context.circularReveal(viewToReveal: View, posFromRight: Int,
-                           containsOverflow: Boolean, isShow: Boolean) {
+fun Context.circularRevealAnimation(viewToReveal: View, posFromRight: Int,
+                                    containsOverflow: Boolean, isShow: Boolean) {
     var width = viewToReveal.width
     if (posFromRight > 0) {
         width -= posFromRight *
