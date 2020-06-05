@@ -14,6 +14,7 @@ object Constants {
     const val URL_QUERY_CITY = "q"
     const val URL_QUERY_LAT = "lat"
     const val URL_QUERY_LON = "lon"
+    const val URL_QUERY_ZIP = "zip"
     const val URL_QUERY_API_KEY = "appid"
 
 }

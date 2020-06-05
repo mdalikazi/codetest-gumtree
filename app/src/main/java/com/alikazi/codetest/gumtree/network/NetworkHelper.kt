@@ -36,7 +36,13 @@ object NetworkHelper {
     fun getCityWeatherUrl(cityName: String): String {
         val builder = getBuilderWithBaseUrl()
             .appendQueryParameter(Constants.URL_QUERY_CITY, cityName)
-            .appendQueryParameter(Constants.URL_QUERY_API_KEY, Constants.API_KEY)
+
+        return URL(builder.build().toString()).toString()
+    }
+
+    fun getZipCodeWeatherUrl(zipCode: Int): String {
+        val builder = getBuilderWithBaseUrl()
+            .appendQueryParameter(Constants.URL_QUERY_ZIP, zipCode.toString())
 
         return URL(builder.build().toString()).toString()
     }
@@ -55,6 +61,7 @@ object NetworkHelper {
             .authority(Constants.URL_AUTHORITY)
             .appendPath(Constants.URL_PATH_DATA)
             .appendPath(Constants.URL_PATH_CURRENT_WEATHER)
+            .appendQueryParameter(Constants.URL_QUERY_API_KEY, Constants.API_KEY)
 
     private fun roundToTwoDecimalPoints(double: Double): String = DecimalFormat(Constants.DECIMAL_FORMAT).format(double)
 
