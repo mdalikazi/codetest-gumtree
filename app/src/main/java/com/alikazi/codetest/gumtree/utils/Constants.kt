@@ -10,7 +10,7 @@ object Constants {
     const val URL_SCHEME_HTTPS = "https"
     const val URL_AUTHORITY = "api.openweathermap.org"
     const val URL_PATH_DATA = "data/2.5"
-    const val URL_PATH_CURRENT_WEATHER = "weather"
+    const val URL_PATH_WEATHER = "weather"
     const val URL_QUERY_CITY = "q"
     const val URL_QUERY_LAT = "lat"
     const val URL_QUERY_LON = "lon"

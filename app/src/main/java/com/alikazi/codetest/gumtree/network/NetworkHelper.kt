@@ -3,6 +3,7 @@ package com.alikazi.codetest.gumtree.network
 import android.location.Location
 import android.net.Uri
 import com.alikazi.codetest.gumtree.utils.Constants
+import com.alikazi.codetest.gumtree.utils.DLog
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,27 +33,31 @@ object NetworkHelper {
 
     interface Network {
         @GET
-        suspend fun fetchWeatherByCity(): String
+        suspend fun fetchWeatherByCity(@Url cityUrl: String): String
 
         @GET
-        suspend fun fetchWeatherByZipCode(): String
+        suspend fun fetchWeatherByZipCode(@Url zipUrl: String): String
 
         @GET
-        suspend fun fetchWeatherByLatLon(): String
+        suspend fun fetchWeatherByLatLon(@Url locationUrl: String): String
     }
 
     fun getCityWeatherUrl(cityName: String): String {
         val builder = getBuilderWithBaseUrl()
             .appendQueryParameter(Constants.URL_QUERY_CITY, cityName)
 
-        return URL(builder.build().toString()).toString()
+        val url = URL(builder.build().toString()).toString()
+        DLog.d("url $url")
+        return url
     }
 
     fun getZipCodeWeatherUrl(zipCode: Int): String {
         val builder = getBuilderWithBaseUrl()
             .appendQueryParameter(Constants.URL_QUERY_ZIP, zipCode.toString())
 
-        return URL(builder.build().toString()).toString()
+        val url = URL(builder.build().toString()).toString()
+        DLog.d("url $url")
+        return url
     }
 
     fun getLatLonWeatherUrl(location: Location): String {
@@ -60,7 +65,9 @@ object NetworkHelper {
             .appendQueryParameter(Constants.URL_QUERY_LAT, roundToTwoDecimalPoints(location.latitude))
             .appendQueryParameter(Constants.URL_QUERY_LON, roundToTwoDecimalPoints(location.longitude))
 
-        return URL(builder.build().toString()).toString()
+        val url = URL(builder.build().toString()).toString()
+        DLog.d("url $url")
+        return url
     }
 
     private fun getBuilderWithBaseUrl(): Uri.Builder =
@@ -68,7 +75,7 @@ object NetworkHelper {
             .scheme(Constants.URL_SCHEME_HTTPS)
             .authority(Constants.URL_AUTHORITY)
             .appendPath(Constants.URL_PATH_DATA)
-            .appendPath(Constants.URL_PATH_CURRENT_WEATHER)
+            .appendPath(Constants.URL_PATH_WEATHER)
             .appendQueryParameter(Constants.URL_QUERY_API_KEY, Constants.API_KEY)
 
     private fun roundToTwoDecimalPoints(double: Double): String = DecimalFormat(Constants.DECIMAL_FORMAT).format(double)

@@ -10,17 +10,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Constants
-import com.alikazi.codetest.gumtree.utils.circularReveal
+import com.alikazi.codetest.gumtree.utils.DLog
+import com.alikazi.codetest.gumtree.utils.circularRevealAnimation
 
 class MySearchView(private val activity: Activity,
                    private val revealToolbar: Toolbar) {
 
-    companion object {
-        private var searchViewEventsListener: SearchViewEventsListener? = null
-
-        fun setSearchViewEventsListener(searchViewEventsListener: SearchViewEventsListener) {
-            Companion.searchViewEventsListener = searchViewEventsListener
-        }
+    fun setSearchViewEventsListener(listener: SearchViewEventsListener) {
+        searchViewEventsListener = listener
     }
 
     init {
@@ -29,6 +26,7 @@ class MySearchView(private val activity: Activity,
 
     private lateinit var searchView: SearchView
     private lateinit var searchMenuItem: MenuItem
+    private var searchViewEventsListener: SearchViewEventsListener? = null
 
     private fun initSearchView() {
         revealToolbar.inflateMenu(R.menu.menu_search)
@@ -44,7 +42,7 @@ class MySearchView(private val activity: Activity,
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    Log.d(Constants.LOG_TAG, "onQueryTextChange newText: $query")
+                    DLog.d("Search query $query")
                     searchViewEventsListener?.onSearchQuerySubmit(query)
                     searchView.clearFocus()
                     return true
@@ -73,7 +71,7 @@ class MySearchView(private val activity: Activity,
     }
 
     fun animateSearchView(reveal: Boolean) {
-        activity.circularReveal(revealToolbar, 0, true, reveal)
+        activity.circularRevealAnimation(revealToolbar, 0, true, reveal)
     }
 
     fun getSearchMenuItem(): MenuItem? {
