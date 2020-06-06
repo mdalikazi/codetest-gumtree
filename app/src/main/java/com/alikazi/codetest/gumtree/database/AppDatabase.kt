@@ -5,7 +5,7 @@ import androidx.room.*
 import com.alikazi.codetest.gumtree.models.CurrentWeather
 
 @TypeConverters(MyTypeConverters::class)
-@Database(entities = [CurrentWeather::class], version = 2, exportSchema = false)
+@Database(entities = [CurrentWeather::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val weatherDao: WeatherDao

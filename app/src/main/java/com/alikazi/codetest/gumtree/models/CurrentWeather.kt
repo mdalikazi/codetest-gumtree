@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull
 data class CurrentWeather(
     @PrimaryKey
     @NotNull
-    val id: Int = 1,
+    val uuid: Int = 1,
+    val name: String = "",
     val weather: List<Weather> = emptyList(),
     @SerializedName("main")
     val temperature: Temperature = Temperature())
