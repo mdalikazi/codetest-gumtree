@@ -58,6 +58,9 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
                 weatherTemperature.text = getString(
                     R.string.weather_temperature,
                     kelvinToCelcius(it.temperature.temp))
+                weatherFeelsLike.text = getString(
+                    R.string.weather_temperature_feels_like,
+                    kelvinToCelcius(it.temperature.feelsLike))
                 weatherTemperatureMinMax.text = getString(
                     R.string.weather_temperature_min_max,
                     kelvinToCelcius(it.temperature.tempMax),

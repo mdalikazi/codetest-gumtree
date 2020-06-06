@@ -38,21 +38,21 @@
             android:id="@+id/weatherLocationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="12dp"
             tools:text="Sydney" />
 
         <ImageView
             android:id="@+id/weatherIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:src="@drawable/weather_sunny" />
 
         <TextView
             android:id="@+id/weatherDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             android:textSize="16sp"
             tools:text="Sunny" />
 
@@ -60,17 +60,25 @@
             android:id="@+id/weatherTemperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="0dp"
             android:textSize="16sp"
             tools:text="13C" />
 
         <TextView
-            style="@style/TextSecondary16"
+            style="@style/TextSecondary12"
+            android:id="@+id/weatherFeelsLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            tools:text="Feels like 9C" />
+
+        <TextView
             android:id="@+id/weatherTemperatureMinMax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            tools:text="(16C - 6C)" />
+            android:layout_marginBottom="6dp"
+            android:textSize="16sp"
+            tools:text="16C / 6C" />
 
     </LinearLayout>
 

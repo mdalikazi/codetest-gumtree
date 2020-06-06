@@ -20,6 +20,10 @@
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
+    <style name="TextSecondary12" parent="TextSecondary">
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="TextSecondary16" parent="TextSecondary">
         <item name="android:textSize">16sp</item>
     </style>
