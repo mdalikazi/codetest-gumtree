@@ -2,11 +2,14 @@ package com.alikazi.codetest.gumtree.utils
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.net.ConnectivityManager
 import android.os.Build
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.alikazi.codetest.gumtree.R
@@ -28,6 +31,25 @@ fun String.isNumeric(): Boolean {
 }
 
 fun kelvinToCelcius(kelvin: Double): Int = (kelvin - 273.15).toInt()
+
+fun Context.showAlertDialog(title: String?, message: String,
+                            okText: String?, okClickListener: DialogInterface.OnClickListener?,
+                            cancelText: String?, cancelClickListener: DialogInterface.OnClickListener?) {
+    val builder = AlertDialog.Builder(this, R.style.AppTheme_DialogOverlay)
+    builder.setCancelable(false)
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton(okText ?: this.getString(R.string.ok),
+            okClickListener ?: DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+            })
+        .setNegativeButton(cancelText ?: this.getString(R.string.cancel),
+            cancelClickListener ?: DialogInterface.OnClickListener { dialog, _ ->
+                dialog.dismiss()
+            })
+        .create()
+        .show()
+}
 
 fun Context.circularRevealAnimation(viewToReveal: View, posFromRight: Int,
                                     containsOverflow: Boolean, isShow: Boolean) {
