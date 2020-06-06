@@ -51,9 +51,7 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
 
         mainViewModel.response.observe(this, Observer {
             it?.let {
-                DLog.d("it ${it.id}")
-                DLog.d("it ${it.temperature.temp}")
-                DLog.d("it ${it.weather.description}")
+                // TODO
             }
         })
     }

@@ -4,17 +4,21 @@ import androidx.room.TypeConverter
 import com.alikazi.codetest.gumtree.models.Temperature
 import com.alikazi.codetest.gumtree.models.Weather
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 class MyTypeConverters {
 
     @TypeConverter
-    fun convertStringToWeather(string: String): Weather {
-        return Gson().fromJson(string, Weather::class.java)
+    fun convertStringToWeather(string: String): List<Weather> {
+        val type = object : TypeToken<List<Weather>>(){}.type
+        return Gson().fromJson(string, type)
     }
 
     @TypeConverter
-    fun convertWeatherToString(src: Weather): String {
-        return Gson().toJson(src)
+    fun convertWeatherToString(src: List<Weather>): String {
+        val type = object : TypeToken<List<Weather>>(){}.type
+        return Gson().toJson(src, type)
     }
 
     @TypeConverter

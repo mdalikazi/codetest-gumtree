@@ -9,5 +9,6 @@ data class CurrentWeather(
     @PrimaryKey
     @NotNull
     val id: Int = 1,
-    val weather: Weather = Weather(),
-    val temperature: Temperature = Temperature())
+    val weather: List<Weather> = emptyList(),
+    val temperature: Temperature = Temperature()
+                         )
