@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,6 +26,17 @@
             android:background="@color/colorToolbarReveal"
             android:visibility="invisible"
             app:theme="@style/AppTheme.AppBarOverlay"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchHistoryRecycerlView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainToolbar"
+            android:layout_marginStart="?attr/actionBarSize"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:listitem="@layout/recycler_item_query"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <FrameLayout
             android:id="@+id/fragmentContainer"
