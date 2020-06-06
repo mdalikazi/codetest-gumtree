@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Injector
+import com.alikazi.codetest.gumtree.utils.kelvinToCelcius
 import com.alikazi.codetest.gumtree.utils.showSnackbar
 import com.alikazi.codetest.gumtree.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -56,11 +57,11 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
                 weatherDescription.text = it.weather[0].description.capitalize(Locale.getDefault())
                 weatherTemperature.text = getString(
                     R.string.weather_temperature,
-                    it.temperature.temp.toInt())
+                    kelvinToCelcius(it.temperature.temp))
                 weatherTemperatureMinMax.text = getString(
                     R.string.weather_temperature_min_max,
-                    it.temperature.tempMin.toInt(),
-                    it.temperature.tempMax.toInt())
+                    kelvinToCelcius(it.temperature.tempMin),
+                    kelvinToCelcius(it.temperature.tempMax))
             }
             weatherDetailsContainer.visibility = processVisibility(it != null)
             mainFragmentEmptyMessageTextView.visibility = processVisibility(it == null)

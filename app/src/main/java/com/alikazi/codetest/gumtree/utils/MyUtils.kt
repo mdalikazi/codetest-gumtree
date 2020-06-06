@@ -27,12 +27,7 @@ fun String.isNumeric(): Boolean {
     return true
 }
 
-fun Context.isNetworkConnected(): Boolean {
-    val connectivityManager = ContextCompat.getSystemService(
-        this, ConnectivityManager::class.java) as ConnectivityManager
-    val networkInfo = connectivityManager.activeNetworkInfo
-    return networkInfo != null && networkInfo.isConnected
-}
+fun kelvinToCelcius(kelvin: Double): Int = (kelvin - 273.15).toInt()
 
 fun Context.circularRevealAnimation(viewToReveal: View, posFromRight: Int,
                                     containsOverflow: Boolean, isShow: Boolean) {
