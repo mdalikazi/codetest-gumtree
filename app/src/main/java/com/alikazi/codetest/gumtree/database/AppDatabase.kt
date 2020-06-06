@@ -1,11 +1,10 @@
 package com.alikazi.codetest.gumtree.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.alikazi.codetest.gumtree.models.CurrentWeather
 
+@TypeConverters(MyTypeConverters::class)
 @Database(entities = [CurrentWeather::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 

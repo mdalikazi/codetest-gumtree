@@ -1,17 +1,20 @@
 package com.alikazi.codetest.gumtree.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.alikazi.codetest.gumtree.models.CurrentWeather
 
 @Dao
 interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCurrentWeather()
+    suspend fun insertCurrentWeather(currentWeather: CurrentWeather)
 
-    @Query("SELECT * FROM CurrentWeather")
-    fun getLastSearchedWeather()
+//    @Query("SELECT * FROM CurrentWeather")
+//    suspend fun getLastSearchedWeather(): LiveData<CurrentWeather>
+
+    @get:Transaction
+    @get:Query("SELECT * FROM currentweather")
+    val lastSearchedWeather: LiveData<CurrentWeather>
 
 }

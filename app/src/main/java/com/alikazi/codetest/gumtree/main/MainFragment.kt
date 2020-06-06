@@ -32,7 +32,7 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
         // Using full class name to avoid deprecated warning in import
         mainViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
-            Injector.provideViewModelFactory())
+            Injector.provideViewModelFactory(activity!!))
             .get(MainViewModel::class.java)
 
         mainViewModel.isRefreshing.observe(this, Observer {
@@ -46,6 +46,14 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
                 } else {
                     mainFragmentContainer.showSnackbar(it.toString())
                 }
+            }
+        })
+
+        mainViewModel.response.observe(this, Observer {
+            it?.let {
+                DLog.d("it ${it.id}")
+                DLog.d("it ${it.temperature.temp}")
+                DLog.d("it ${it.weather.description}")
             }
         })
     }
