@@ -41,7 +41,7 @@
             android:layout_marginEnd="?attr/actionBarSize"
             android:layout_below="@+id/mainToolbar"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:listitem="@layout/recycler_item_query"
             app:reverseLayout="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

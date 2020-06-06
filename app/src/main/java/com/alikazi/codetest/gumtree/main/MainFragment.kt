@@ -97,6 +97,10 @@ class MainFragment : Fragment(),
         searchHistoryViewModel.saveQuery(SearchQuery(query))
     }
 
+    override fun onSearchViewExpandedOrCollapsed(expanded: Boolean) {
+        (activity as MainActivity).showHideSearchHistoryRecyclerView(expanded)
+    }
+
     override fun onClickHistoricalQuery(searchQuery: SearchQuery) {
         (activity as MainActivity).onBackPressed()
         weatherViewModel.fetchWeatherWithQuery(searchQuery.searchTerm)

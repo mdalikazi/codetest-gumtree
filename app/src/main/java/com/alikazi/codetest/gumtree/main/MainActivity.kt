@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         R.id.menu_main_search_icon -> {
             customSearchView.animateSearchView(revealToolbar.visibility != View.VISIBLE)
             customSearchView.getSearchMenuItem()?.expandActionView()
+            searchHistoryRecyclerView.visibility = View.VISIBLE
             true
         }
         R.id.menu_main_action_gps -> {
@@ -101,6 +102,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    fun showHideSearchHistoryRecyclerView(show: Boolean) {
+        searchHistoryRecyclerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun checkLocationPermission() {
