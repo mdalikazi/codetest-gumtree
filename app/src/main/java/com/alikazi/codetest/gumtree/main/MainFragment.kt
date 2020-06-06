@@ -60,8 +60,8 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
                     kelvinToCelcius(it.temperature.temp))
                 weatherTemperatureMinMax.text = getString(
                     R.string.weather_temperature_min_max,
-                    kelvinToCelcius(it.temperature.tempMin),
-                    kelvinToCelcius(it.temperature.tempMax))
+                    kelvinToCelcius(it.temperature.tempMax),
+                    kelvinToCelcius(it.temperature.tempMin))
             }
             weatherDetailsContainer.visibility = processVisibility(it != null)
             mainFragmentEmptyMessageTextView.visibility = processVisibility(it == null)

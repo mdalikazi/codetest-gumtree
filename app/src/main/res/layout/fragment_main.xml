@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            tools:text="(6C - 16C)" />
+            tools:text="(16C - 6C)" />
 
     </LinearLayout>
 
