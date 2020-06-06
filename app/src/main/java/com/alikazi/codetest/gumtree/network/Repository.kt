@@ -43,7 +43,7 @@ class Repository(private val database: AppDatabase) {
     }
 
     suspend fun deleteSearchQueryFromDatabase(searchQuery: SearchQuery) {
-        database.searchHistoryDao.deleteQueryFromHistory(searchQuery)
+        database.searchHistoryDao.deleteQueryFromHistory(searchQuery.searchTerm)
     }
 
 }

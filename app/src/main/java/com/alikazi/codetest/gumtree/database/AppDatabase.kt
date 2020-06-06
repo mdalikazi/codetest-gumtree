@@ -6,7 +6,7 @@ import com.alikazi.codetest.gumtree.models.CurrentWeather
 import com.alikazi.codetest.gumtree.models.SearchQuery
 
 @TypeConverters(MyTypeConverters::class)
-@Database(entities = [CurrentWeather::class, SearchQuery::class], version = 5, exportSchema = false)
+@Database(entities = [CurrentWeather::class, SearchQuery::class], version = 6, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val weatherDao: WeatherDao

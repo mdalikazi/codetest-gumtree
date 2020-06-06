@@ -27,22 +27,23 @@
             android:visibility="invisible"
             app:theme="@style/AppTheme.AppBarOverlay"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchHistoryRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@+id/mainToolbar"
-            android:layout_marginStart="?attr/actionBarSize"
-            android:orientation="vertical"
-            android:visibility="visible"
-            tools:listitem="@layout/recycler_item_query"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/mainToolbar"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchHistoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="?attr/actionBarSize"
+            android:layout_marginEnd="?attr/actionBarSize"
+            android:layout_below="@+id/mainToolbar"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:listitem="@layout/recycler_item_query"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </RelativeLayout>
 
