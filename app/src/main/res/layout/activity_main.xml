@@ -28,9 +28,9 @@
             app:theme="@style/AppTheme.AppBarOverlay"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchHistoryRecycerlView"
+            android:id="@+id/searchHistoryRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_below="@+id/mainToolbar"
             android:layout_marginStart="?attr/actionBarSize"
             android:orientation="vertical"

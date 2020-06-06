@@ -3,12 +3,14 @@ package com.alikazi.codetest.gumtree.database
 import android.content.Context
 import androidx.room.*
 import com.alikazi.codetest.gumtree.models.CurrentWeather
+import com.alikazi.codetest.gumtree.models.SearchQuery
 
 @TypeConverters(MyTypeConverters::class)
-@Database(entities = [CurrentWeather::class], version = 5, exportSchema = false)
+@Database(entities = [CurrentWeather::class, SearchQuery::class], version = 5, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val weatherDao: WeatherDao
+    abstract val searchHistoryDao: SearchHistoryDao
 
     companion object {
         private const val databaseName = "WeatherApp.db"

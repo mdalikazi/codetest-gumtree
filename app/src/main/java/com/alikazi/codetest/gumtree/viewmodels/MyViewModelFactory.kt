@@ -8,8 +8,10 @@ class MyViewModelFactory(private val repository: Repository) : ViewModelProvider
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(repository) as T
+        if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
+            return WeatherViewModel(repository) as T
+        } else if (modelClass.isAssignableFrom(SearchHistoryViewModel::class.java)) {
+            return SearchHistoryViewModel(repository) as T
         }
 
         throw ClassNotFoundException("Invalid ViewModel was passed to ViewModelFactory!")

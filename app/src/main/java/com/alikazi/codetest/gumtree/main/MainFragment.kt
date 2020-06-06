@@ -11,14 +11,14 @@ import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Injector
 import com.alikazi.codetest.gumtree.utils.kelvinToCelcius
 import com.alikazi.codetest.gumtree.utils.showSnackbar
-import com.alikazi.codetest.gumtree.viewmodels.MainViewModel
+import com.alikazi.codetest.gumtree.viewmodels.WeatherViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.net.UnknownHostException
 import java.util.*
 
 class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var weatherViewModel: WeatherViewModel
 
     @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,16 +32,16 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
          */
         @Suppress("DEPRECATION")
         // Using full class name to avoid deprecated warning in import
-        mainViewModel = androidx.lifecycle.ViewModelProviders.of(
+        weatherViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
             Injector.provideViewModelFactory(activity!!))
-            .get(MainViewModel::class.java)
+            .get(WeatherViewModel::class.java)
 
-        mainViewModel.isRefreshing.observe(this, Observer {
+        weatherViewModel.isRefreshing.observe(this, Observer {
             mainFragmentProgressBar.visibility = processVisibility(it)
         })
 
-        mainViewModel.errors.observe(this, Observer {
+        weatherViewModel.errors.observe(this, Observer {
             it.let {
                 if (it is UnknownHostException) {
                     mainFragmentContainer.showSnackbar(getString(R.string.main_fragment_snackbar_message_offline))
@@ -51,7 +51,7 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
             }
         })
 
-        mainViewModel.response.observe(this, Observer {
+        weatherViewModel.lastSearchedWeather.observe(this, Observer {
             it?.let {
                 weatherLocationName.text = it.name
                 weatherDescription.text = it.weather[0].description.capitalize(Locale.getDefault())
@@ -80,7 +80,7 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
     }
 
     override fun onSearchQuerySubmit(query: String) {
-        mainViewModel.fetchWeatherWithQuery(query)
+        weatherViewModel.fetchWeatherWithQuery(query)
     }
 
     private fun processVisibility(shouldShow: Boolean): Int = if (shouldShow) View.VISIBLE else View.GONE
