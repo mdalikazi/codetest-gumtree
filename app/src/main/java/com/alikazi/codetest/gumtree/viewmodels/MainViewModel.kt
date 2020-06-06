@@ -27,11 +27,9 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         fetchSomethingFromRepository {
             if (query.isNumeric() && query.length == 5) {
                 // Its ZIP code
-                DLog.d("Its zip code")
                 repository.getWeatherByZipCode(query.toInt())
             } else {
                 // Its City name
-                DLog.d("Its city")
                 repository.getWeatherByCity(query)
             }
         }
