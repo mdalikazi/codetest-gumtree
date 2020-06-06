@@ -36,7 +36,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchHistoryRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="?attr/actionBarSize"
             android:layout_marginEnd="?attr/actionBarSize"
             android:layout_below="@+id/mainToolbar"

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.models.SearchQuery
 
-class SearchHistoryRecyclerAdapter(context: Context, private val queryClickListener: SearchHistoryItemClickListener) :
+class SearchHistoryRecyclerAdapter(context: Context) :
     ListAdapter<SearchQuery, SearchHistoryRecyclerAdapter.SearchQueryViewHolder>(DIFF_UTIL) {
 
     companion object {
@@ -28,6 +28,11 @@ class SearchHistoryRecyclerAdapter(context: Context, private val queryClickListe
     }
 
     private val inflater = LayoutInflater.from(context)
+    private var queryClickListener: SearchHistoryItemClickListener? = null
+
+    fun setSearchHisoryItemClickListener(clickListener: SearchHistoryItemClickListener) {
+        queryClickListener = clickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchQueryViewHolder {
         val view = inflater.inflate(R.layout.recycler_item_query, parent, false)
@@ -38,7 +43,7 @@ class SearchHistoryRecyclerAdapter(context: Context, private val queryClickListe
         val searchQuery = getItem(position)
         holder.queryTextView.text = searchQuery.searchTerm
         holder.itemView.setOnClickListener {
-            queryClickListener?.onClickQuery(searchQuery)
+            queryClickListener?.onClickHistoricalQuery(searchQuery)
         }
         holder.queryRemoveButton.setOnClickListener {
             queryClickListener?.onClickRemoveQuery(searchQuery)
@@ -52,7 +57,7 @@ class SearchHistoryRecyclerAdapter(context: Context, private val queryClickListe
 
     interface SearchHistoryItemClickListener {
 
-        fun onClickQuery(searchQuery: SearchQuery)
+        fun onClickHistoricalQuery(searchQuery: SearchQuery)
 
         fun onClickRemoveQuery(searchQuery: SearchQuery)
 

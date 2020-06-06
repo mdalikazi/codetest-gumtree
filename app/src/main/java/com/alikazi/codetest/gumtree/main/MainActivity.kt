@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
     private fun goToMainFragment() {
         val fragment = MainFragment()
         customSearchView.setSearchViewEventsListener(fragment)
+        searchHistoryAdapter.setSearchHisoryItemClickListener(fragment)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

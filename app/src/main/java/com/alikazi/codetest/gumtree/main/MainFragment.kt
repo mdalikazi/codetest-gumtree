@@ -19,7 +19,9 @@ import java.net.UnknownHostException
 import java.util.*
 
 @Suppress("DEPRECATION")
-class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
+class MainFragment : Fragment(),
+    MySearchView.SearchViewEventsListener,
+    SearchHistoryRecyclerAdapter.SearchHistoryItemClickListener {
 
     private lateinit var weatherViewModel: WeatherViewModel
     private lateinit var searchHistoryViewModel: SearchHistoryViewModel
@@ -93,6 +95,15 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
     override fun onSearchQuerySubmit(query: String) {
         weatherViewModel.fetchWeatherWithQuery(query)
         searchHistoryViewModel.saveQuery(SearchQuery(query))
+    }
+
+    override fun onClickHistoricalQuery(searchQuery: SearchQuery) {
+        (activity as MainActivity).onBackPressed()
+        weatherViewModel.fetchWeatherWithQuery(searchQuery.searchTerm)
+    }
+
+    override fun onClickRemoveQuery(searchQuery: SearchQuery) {
+        searchHistoryViewModel.deleteQuery(searchQuery)
     }
 
     private fun processVisibility(shouldShow: Boolean): Int = if (shouldShow) View.VISIBLE else View.GONE
