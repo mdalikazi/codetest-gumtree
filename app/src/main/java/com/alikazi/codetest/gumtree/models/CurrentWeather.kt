@@ -1,5 +1,11 @@
 package com.alikazi.codetest.gumtree.models
 
-data class CurrentWeather(val id: Int,
-                          val weather: Weather,
-                          val temperature: Temperature)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class CurrentWeather(
+    @PrimaryKey
+    val id: Int = 1,
+    val weather: Weather,
+    val temperature: Temperature)
