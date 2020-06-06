@@ -5,5 +5,8 @@
     <string name="main_fragment_empty_message_default">Search your city to see your local weather</string>
     <string name="main_fragment_empty_message_network_error">Sorry, your search did not return any results.</string>
     <string name="main_fragment_snackbar_message_offline">Looks like you are offline. Check your internet connection.</string>
+    <string name="weather_temperature">%1$d&#176;C</string>
+    <string name="weather_temperature_feels_like">Feels like %1$d&#176;C</string>
+    <string name="weather_temperature_min_max">(%1$d&#176;C / %2$d&#176;C)</string>
 
 </resources>

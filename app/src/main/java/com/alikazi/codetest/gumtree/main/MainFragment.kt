@@ -8,17 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alikazi.codetest.gumtree.R
-import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.Injector
+import com.alikazi.codetest.gumtree.utils.kelvinToCelcius
 import com.alikazi.codetest.gumtree.utils.showSnackbar
 import com.alikazi.codetest.gumtree.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.net.UnknownHostException
+import java.util.*
 
 class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
 
     private lateinit var mainViewModel: MainViewModel
 
+    @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,11 +34,11 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
         // Using full class name to avoid deprecated warning in import
         mainViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
-            Injector.provideViewModelFactory())
+            Injector.provideViewModelFactory(activity!!))
             .get(MainViewModel::class.java)
 
         mainViewModel.isRefreshing.observe(this, Observer {
-            mainFragmentProgressBar.visibility = if (it) View.VISIBLE else View.GONE
+            mainFragmentProgressBar.visibility = processVisibility(it)
         })
 
         mainViewModel.errors.observe(this, Observer {
@@ -48,6 +50,25 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
                 }
             }
         })
+
+        mainViewModel.response.observe(this, Observer {
+            it?.let {
+                weatherLocationName.text = it.name
+                weatherDescription.text = it.weather[0].description.capitalize(Locale.getDefault())
+                weatherTemperature.text = getString(
+                    R.string.weather_temperature,
+                    kelvinToCelcius(it.temperature.temp))
+                weatherFeelsLike.text = getString(
+                    R.string.weather_temperature_feels_like,
+                    kelvinToCelcius(it.temperature.feelsLike))
+                weatherTemperatureMinMax.text = getString(
+                    R.string.weather_temperature_min_max,
+                    kelvinToCelcius(it.temperature.tempMax),
+                    kelvinToCelcius(it.temperature.tempMin))
+            }
+            weatherDetailsContainer.visibility = processVisibility(it != null)
+            mainFragmentEmptyMessageTextView.visibility = processVisibility(it == null)
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,15 +76,12 @@ class MainFragment : Fragment(), MySearchView.SearchViewEventsListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mainFragmentProgressBar
-        mainFragmentEmptyMessageTextView
+
     }
 
     override fun onSearchQuerySubmit(query: String) {
         mainViewModel.fetchWeatherWithQuery(query)
     }
 
-    private fun showRefreshing() {
-
-    }
+    private fun processVisibility(shouldShow: Boolean): Int = if (shouldShow) View.VISIBLE else View.GONE
 }

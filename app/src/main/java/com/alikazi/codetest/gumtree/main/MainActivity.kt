@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.alikazi.codetest.gumtree.R
+import com.facebook.stetho.Stetho
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(mainToolbar)
         setupSearchViewAndRevealToolbar()
+        Stetho.initializeWithDefaults(this)
         if (savedInstanceState == null) {
             goToMainFragment()
         }

@@ -2,6 +2,7 @@ package com.alikazi.codetest.gumtree.network
 
 import android.location.Location
 import android.net.Uri
+import com.alikazi.codetest.gumtree.models.CurrentWeather
 import com.alikazi.codetest.gumtree.utils.Constants
 import com.alikazi.codetest.gumtree.utils.DLog
 import okhttp3.OkHttpClient
@@ -9,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Url
+import java.net.URI
 import java.net.URL
 import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
@@ -23,6 +25,7 @@ object NetworkHelper {
 
         val retrofit = Retrofit.Builder()
             .client(okHttpClient)
+            .baseUrl(Constants.URL_BASE)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -33,13 +36,13 @@ object NetworkHelper {
 
     interface Network {
         @GET
-        suspend fun fetchWeatherByCity(@Url cityUrl: String): String
+        suspend fun fetchWeatherByCity(@Url cityUrl: String): CurrentWeather
 
         @GET
-        suspend fun fetchWeatherByZipCode(@Url zipUrl: String): String
+        suspend fun fetchWeatherByZipCode(@Url zipUrl: String): CurrentWeather
 
         @GET
-        suspend fun fetchWeatherByLatLon(@Url locationUrl: String): String
+        suspend fun fetchWeatherByLatLon(@Url locationUrl: String): CurrentWeather
     }
 
     fun getCityWeatherUrl(cityName: String): String {
@@ -71,10 +74,8 @@ object NetworkHelper {
     }
 
     private fun getBuilderWithBaseUrl(): Uri.Builder =
-        Uri.Builder()
-            .scheme(Constants.URL_SCHEME_HTTPS)
-            .authority(Constants.URL_AUTHORITY)
-            .appendPath(Constants.URL_PATH_DATA)
+        Uri.parse(Constants.URL_BASE)
+            .buildUpon()
             .appendPath(Constants.URL_PATH_WEATHER)
             .appendQueryParameter(Constants.URL_QUERY_API_KEY, Constants.API_KEY)
 

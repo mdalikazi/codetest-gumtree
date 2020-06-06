@@ -14,6 +14,9 @@ import java.lang.Exception
 
 class MainViewModel(private val repository: Repository) : ViewModel() {
 
+
+    val response = repository.response
+
     private val _errors = MutableLiveData<Exception>()
     val errors: LiveData<Exception> get() = _errors
 
@@ -47,15 +50,14 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
      */
     private fun fetchSomethingFromRepository(block: suspend() -> Unit): Job {
         return viewModelScope.launch {
-            if (_isRefreshing.value == false) {
-                try {
-                    _isRefreshing.value = true
-                    block()
-                } catch (e: Exception) {
-                    _errors.postValue(e)
-                } finally {
-                    _isRefreshing.value = false
-                }
+            try {
+                _isRefreshing.value = true
+                block()
+            } catch (e: Exception) {
+                _errors.postValue(e)
+                DLog.d("Exception ${e.message}")
+            } finally {
+                _isRefreshing.value = false
             }
         }
     }
