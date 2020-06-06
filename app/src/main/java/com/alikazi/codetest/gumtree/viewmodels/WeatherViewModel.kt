@@ -12,10 +12,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class MainViewModel(private val repository: Repository) : ViewModel() {
+class WeatherViewModel(private val repository: Repository) : ViewModel() {
 
 
-    val response = repository.response
+    val lastSearchedWeather = repository.lastSearchedWeatherFromDb
 
     private val _errors = MutableLiveData<Exception>()
     val errors: LiveData<Exception> get() = _errors

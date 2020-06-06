@@ -7,5 +7,6 @@
     <color name="colorTextPrimary">@android:color/primary_text_light</color>
     <color name="colorTextSecondary">@android:color/tertiary_text_light</color>
     <color name="colorToolbarReveal">#FA650F</color>
+    <color name="colorDivider">#D5D5D5</color>
 
 </resources>

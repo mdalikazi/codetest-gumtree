@@ -10,22 +10,29 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Constants
 import com.alikazi.codetest.gumtree.utils.DLog
+import com.alikazi.codetest.gumtree.utils.Injector
 import com.alikazi.codetest.gumtree.utils.showAlertDialog
+import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
 import com.facebook.stetho.Stetho
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var customSearchView: MySearchView
+    private lateinit var searchHistoryViewModel: SearchHistoryViewModel
+    private lateinit var searchHistoryAdapter: SearchHistoryRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(mainToolbar)
         setupSearchViewAndRevealToolbar()
+        setupSearchHistoryRecyclerView()
+        setupSearchHistoryViewModel()
         Stetho.initializeWithDefaults(this)
         if (savedInstanceState == null) {
             goToMainFragment()
@@ -41,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         R.id.menu_main_search_icon -> {
             customSearchView.animateSearchView(revealToolbar.visibility != View.VISIBLE)
             customSearchView.getSearchMenuItem()?.expandActionView()
+            searchHistoryRecyclerView.visibility = View.VISIBLE
             true
         }
         R.id.menu_main_action_gps -> {
@@ -59,9 +67,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupSearchHistoryRecyclerView() {
+        searchHistoryAdapter = SearchHistoryRecyclerAdapter(this)
+        searchHistoryRecyclerView.adapter = searchHistoryAdapter
+    }
+
+    private fun setupSearchHistoryViewModel() {
+        @Suppress("DEPRECATION")
+        searchHistoryViewModel = androidx.lifecycle.ViewModelProviders.of(
+            this,
+            Injector.provideViewModelFactory(this))
+            .get(SearchHistoryViewModel::class.java)
+
+        searchHistoryViewModel.searchHistory.observe(this, Observer {
+            it?.let {
+                searchHistoryAdapter.submitList(it)
+            }
+        })
+    }
+
     private fun goToMainFragment() {
         val fragment = MainFragment()
         customSearchView.setSearchViewEventsListener(fragment)
+        searchHistoryAdapter.setSearchHisoryItemClickListener(fragment)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -74,6 +102,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    fun showHideSearchHistoryRecyclerView(show: Boolean) {
+        searchHistoryRecyclerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun checkLocationPermission() {
