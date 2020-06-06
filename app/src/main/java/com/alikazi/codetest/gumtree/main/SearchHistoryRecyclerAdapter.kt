@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.models.SearchQuery
 
-class SearchHistoryRecyclerAdapter(context: Context) :
+class SearchHistoryRecyclerAdapter(context: Context, private val queryClickListener: SearchHistoryItemClickListener) :
     ListAdapter<SearchQuery, SearchHistoryRecyclerAdapter.SearchQueryViewHolder>(DIFF_UTIL) {
 
     companion object {
@@ -34,11 +35,27 @@ class SearchHistoryRecyclerAdapter(context: Context) :
     }
 
     override fun onBindViewHolder(holder: SearchQueryViewHolder, position: Int) {
-        holder.queryTextView.text = getItem(position).searchTerm
+        val searchQuery = getItem(position)
+        holder.queryTextView.text = searchQuery.searchTerm
+        holder.itemView.setOnClickListener {
+            queryClickListener?.onClickQuery(searchQuery)
+        }
+        holder.queryRemoveButton.setOnClickListener {
+            queryClickListener?.onClickRemoveQuery(searchQuery)
+        }
     }
 
     inner class SearchQueryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val queryTextView: TextView = itemView.findViewById(R.id.queryTextView)
+        val queryRemoveButton: ImageView = itemView.findViewById(R.id.queryRemoveImageView)
+    }
+
+    interface SearchHistoryItemClickListener {
+
+        fun onClickQuery(searchQuery: SearchQuery)
+
+        fun onClickRemoveQuery(searchQuery: SearchQuery)
+
     }
 
 }
