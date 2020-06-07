@@ -22,11 +22,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    @VisibleForTesting
-    fun getIdlingResource(): IdlingResource {
-        return IdlingResourcesHelper.getIdlingResource()
-    }
-
     private lateinit var customSearchView: MySearchView
     private lateinit var searchHistoryViewModel: SearchHistoryViewModel
     private lateinit var searchHistoryAdapter: SearchHistoryRecyclerAdapter
