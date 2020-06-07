@@ -14,6 +14,6 @@ class MyViewModelFactory(private val repository: Repository) : ViewModelProvider
             return SearchHistoryViewModel(repository) as T
         }
 
-        throw ClassNotFoundException("Invalid ViewModel was passed to ViewModelFactory!")
+        throw ClassNotFoundException("Invalid ViewModel was passed to MyViewModelFactory!")
     }
 }

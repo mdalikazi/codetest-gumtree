@@ -9,11 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.models.SearchQuery
+import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.Injector
 import com.alikazi.codetest.gumtree.utils.kelvinToCelcius
 import com.alikazi.codetest.gumtree.utils.showSnackbar
+import com.alikazi.codetest.gumtree.viewmodels.LocationViewModel
 import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
 import com.alikazi.codetest.gumtree.viewmodels.WeatherViewModel
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.net.UnknownHostException
 import java.util.*
@@ -25,12 +28,14 @@ class MainFragment : Fragment(),
 
     private lateinit var weatherViewModel: WeatherViewModel
     private lateinit var searchHistoryViewModel: SearchHistoryViewModel
+    private lateinit var locationViewModel: LocationViewModel
 
     @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initWeatherViewModel()
         initSearchHistoryViewModel()
+        initLocationViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,7 +53,7 @@ class MainFragment : Fragment(),
         // Using full class name to avoid deprecated warning in import
         weatherViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
-            Injector.provideViewModelFactory(activity!!))
+            Injector.provideMyViewModelFactory(activity!!))
             .get(WeatherViewModel::class.java)
 
         weatherViewModel.isRefreshing.observe(this, Observer {
@@ -88,8 +93,23 @@ class MainFragment : Fragment(),
     private fun  initSearchHistoryViewModel() {
         searchHistoryViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
-            Injector.provideViewModelFactory(activity!!))
+            Injector.provideMyViewModelFactory(activity!!))
             .get(SearchHistoryViewModel::class.java)
+    }
+
+    private fun initLocationViewModel() {
+        activity?.let { activity ->
+            DLog.i("initLocationViewModel")
+            locationViewModel = androidx.lifecycle.ViewModelProviders.of(
+                    activity,
+                    Injector.provideLocationViewModelFactory(activity))
+                    .get(LocationViewModel::class.java)
+            locationViewModel.location.observe(this, Observer { location ->
+                // TODO
+                DLog.d("longitude ${location.longitude}")
+                DLog.d("latitude ${location.latitude}")
+            })
+        }
     }
 
     override fun onSearchQuerySubmit(query: String) {

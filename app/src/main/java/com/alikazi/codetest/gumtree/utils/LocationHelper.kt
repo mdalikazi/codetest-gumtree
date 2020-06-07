@@ -2,9 +2,12 @@ package com.alikazi.codetest.gumtree.utils
 
 import android.content.Context
 import android.location.Location
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnFailureListener
 
 class LocationHelper(context: Context) : LocationCallback() {
 
@@ -14,29 +17,31 @@ class LocationHelper(context: Context) : LocationCallback() {
         fastestInterval = 5000
         priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
     }
-    var location = MutableLiveData<Location>()
+    val locationLiveData = MutableLiveData<Location>()
 
     override fun onLocationResult(result: LocationResult?) {
         result ?: return
         for (location in result.locations) {
-            // TODO RETURN LOCATION
-            this.location.postValue(location)
+            DLog.d("onLocationResult")
+            locationLiveData.postValue(location)
         }
     }
 
     fun startLocationUpdates() {
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+        DLog.i("startLocationUpdates")
+        /*fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             location?.let {
-                // TODO RETURN LOCATION
-                this.location.postValue(it)
+                DLog.d("addOnSuccessListener")
+                locationLiveData.postValue(it)
             }
-        }
+        }*/
         fusedLocationClient.requestLocationUpdates(locationRequest, this, null)
 
     }
 
     fun stopLocationUpdates() {
+        DLog.i("stopLocationUpdates")
         fusedLocationClient.removeLocationUpdates(this)
     }
-    
+
 }

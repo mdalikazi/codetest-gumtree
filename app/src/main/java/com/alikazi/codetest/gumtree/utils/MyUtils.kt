@@ -5,17 +5,10 @@ import android.animation.AnimatorListenerAdapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.net.ConnectivityManager
-import android.os.Build
 import android.view.View
 import android.view.ViewAnimationUtils
-import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import com.alikazi.codetest.gumtree.R
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.SnackbarContentLayout
-import java.lang.NumberFormatException
 
 fun View.showSnackbar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()

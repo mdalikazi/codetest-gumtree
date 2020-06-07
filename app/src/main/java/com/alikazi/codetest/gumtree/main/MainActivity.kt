@@ -16,6 +16,7 @@ import com.alikazi.codetest.gumtree.utils.Constants
 import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.Injector
 import com.alikazi.codetest.gumtree.utils.showAlertDialog
+import com.alikazi.codetest.gumtree.viewmodels.LocationViewModel
 import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
 import com.facebook.stetho.Stetho
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var customSearchView: MySearchView
     private lateinit var searchHistoryViewModel: SearchHistoryViewModel
     private lateinit var searchHistoryAdapter: SearchHistoryRecyclerAdapter
+    private lateinit var locationViewModel: LocationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mainToolbar)
         setupSearchViewAndRevealToolbar()
         setupSearchHistoryRecyclerView()
-        setupSearchHistoryViewModel()
+        initSearchHistoryViewModel()
         Stetho.initializeWithDefaults(this)
         if (savedInstanceState == null) {
             goToMainFragment()
@@ -72,11 +74,11 @@ class MainActivity : AppCompatActivity() {
         searchHistoryRecyclerView.adapter = searchHistoryAdapter
     }
 
-    private fun setupSearchHistoryViewModel() {
-        @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION")
+    private fun initSearchHistoryViewModel() {
         searchHistoryViewModel = androidx.lifecycle.ViewModelProviders.of(
             this,
-            Injector.provideViewModelFactory(this))
+            Injector.provideMyViewModelFactory(this))
             .get(SearchHistoryViewModel::class.java)
 
         searchHistoryViewModel.searchHistory.observe(this, Observer {
@@ -84,6 +86,15 @@ class MainActivity : AppCompatActivity() {
                 searchHistoryAdapter.submitList(it)
             }
         })
+    }
+
+    @Suppress("DEPRECATION")
+    private fun initLocationViewModel() {
+        locationViewModel = androidx.lifecycle.ViewModelProviders.of(
+                this,
+                Injector.provideLocationViewModelFactory(this))
+                .get(LocationViewModel::class.java)
+        locationViewModel.getLocation()
     }
 
     private fun goToMainFragment() {
@@ -123,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onLocationPermissionGranted() {
         DLog.i("Location permission granted")
-        // TODO
+        initLocationViewModel()
     }
 
     private fun showLocationExplanationDialog() {
