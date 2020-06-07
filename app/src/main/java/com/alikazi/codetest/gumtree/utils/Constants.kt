@@ -4,6 +4,7 @@ object Constants {
 
     const val LOG_TAG = "GUMTREE"
     const val DECIMAL_FORMAT = "#.##"
+    const val DEFAULT_ANIMATION_DURATION = 300L
     const val REQUEST_CODE_PERMISSION_COARSE_LOCATION = 1000
     const val REQUEST_CODE_LOCATION_SETTINGS = 1001
 

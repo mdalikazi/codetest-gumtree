@@ -2,6 +2,8 @@ package com.alikazi.codetest.gumtree.utils
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -30,18 +32,46 @@ fun Context.showAlertDialog(title: String?, message: String,
                             cancelText: String?, cancelClickListener: DialogInterface.OnClickListener?) {
     val builder = AlertDialog.Builder(this, R.style.AppTheme_DialogOverlay)
     builder.setCancelable(false)
-        .setTitle(title)
-        .setMessage(message)
-        .setPositiveButton(okText ?: this.getString(R.string.ok),
-            okClickListener ?: DialogInterface.OnClickListener { dialog, _ ->
-                dialog.dismiss()
-            })
-        .setNegativeButton(cancelText ?: this.getString(R.string.cancel),
-            cancelClickListener ?: DialogInterface.OnClickListener { dialog, _ ->
-                dialog.dismiss()
-            })
-        .create()
-        .show()
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(okText ?: this.getString(R.string.ok),
+                    okClickListener ?: DialogInterface.OnClickListener { dialog, _ ->
+                        dialog.dismiss()
+                    })
+            .setNegativeButton(cancelText ?: this.getString(R.string.cancel),
+                    cancelClickListener ?: DialogInterface.OnClickListener { dialog, _ ->
+                        dialog.dismiss()
+                    })
+            .create()
+            .show()
+}
+
+fun View.performFadeOutFadeInAnimation(block: () -> Unit) {
+    val abc = AnimatorSet()
+    val fadeIn = ObjectAnimator.ofFloat(this, View.ALPHA, 0f, 1f)
+            .setDuration(Constants.DEFAULT_ANIMATION_DURATION)
+    val fadeOut = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0f)
+            .setDuration(Constants.DEFAULT_ANIMATION_DURATION)
+    fadeOut.addListener(object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(animation: Animator?) {
+
+        }
+
+        override fun onAnimationEnd(animation: Animator?) {
+            DLog.i("onAnimationEnd")
+            block()
+        }
+
+        override fun onAnimationCancel(animation: Animator?) {
+
+        }
+
+        override fun onAnimationStart(animation: Animator?) {
+
+        }
+    })
+    abc.playSequentially(fadeOut, fadeIn)
+    abc.start()
 }
 
 fun Context.circularRevealAnimation(viewToReveal: View, posFromRight: Int,
@@ -53,21 +83,18 @@ fun Context.circularRevealAnimation(viewToReveal: View, posFromRight: Int,
                 resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) /
                 2
     }
-
     if (containsOverflow) {
         width -= resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
     }
 
     val cx = width
     val cy = viewToReveal.height / 2
-
-    val anim: Animator = when(isShow) {
+    val anim: Animator = when (isShow) {
         true -> ViewAnimationUtils.createCircularReveal(viewToReveal, cx, cy, 0f, width.toFloat())
         else -> ViewAnimationUtils.createCircularReveal(viewToReveal, cx, cy, width.toFloat(), 0f)
     }
 
-    anim.duration = 400
-
+    anim.duration = Constants.DEFAULT_ANIMATION_DURATION
     // make the view invisible when the animation is finished
     anim.addListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {

@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.alikazi.codetest.gumtree.R
+import com.alikazi.codetest.gumtree.models.CurrentWeather
 import com.alikazi.codetest.gumtree.models.SearchQuery
-import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.Injector
 import com.alikazi.codetest.gumtree.utils.kelvinToCelcius
+import com.alikazi.codetest.gumtree.utils.performFadeOutFadeInAnimation
 import com.alikazi.codetest.gumtree.utils.showSnackbar
 import com.alikazi.codetest.gumtree.viewmodels.LocationViewModel
 import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
@@ -22,8 +23,8 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class MainFragment : Fragment(),
-    MySearchView.SearchViewEventsListener,
-    SearchHistoryRecyclerAdapter.SearchHistoryItemClickListener {
+        MySearchView.SearchViewEventsListener,
+        SearchHistoryRecyclerAdapter.SearchHistoryItemClickListener {
 
     private lateinit var weatherViewModel: WeatherViewModel
     private lateinit var searchHistoryViewModel: SearchHistoryViewModel
@@ -51,9 +52,9 @@ class MainFragment : Fragment(),
          */
         // Using full class name to avoid deprecated warning in import
         weatherViewModel = androidx.lifecycle.ViewModelProviders.of(
-            this,
-            Injector.provideMyViewModelFactory(activity!!))
-            .get(WeatherViewModel::class.java)
+                this,
+                Injector.provideMyViewModelFactory(activity!!))
+                .get(WeatherViewModel::class.java)
 
         weatherViewModel.errors.observe(this, Observer {
             it.let {
@@ -66,20 +67,7 @@ class MainFragment : Fragment(),
         })
 
         weatherViewModel.lastSearchedWeather.observe(this, Observer {
-            it?.let {
-                weatherLocationName.text = it.name
-                weatherDescription.text = it.weather[0].description.capitalize(Locale.getDefault())
-                weatherTemperature.text = getString(
-                    R.string.weather_temperature,
-                    kelvinToCelcius(it.temperature.temp))
-                weatherFeelsLike.text = getString(
-                    R.string.weather_temperature_feels_like,
-                    kelvinToCelcius(it.temperature.feelsLike))
-                weatherTemperatureMinMax.text = getString(
-                    R.string.weather_temperature_min_max,
-                    kelvinToCelcius(it.temperature.tempMax),
-                    kelvinToCelcius(it.temperature.tempMin))
-            }
+            weatherDetailsContainer.performFadeOutFadeInAnimation { populateWeatherInfo(it) }
             processVisibility(weatherDetailsContainer, it != null)
             processVisibility(mainFragmentEmptyMessageTextView, it == null)
         })
@@ -89,11 +77,11 @@ class MainFragment : Fragment(),
         })
     }
 
-    private fun  initSearchHistoryViewModel() {
+    private fun initSearchHistoryViewModel() {
         searchHistoryViewModel = androidx.lifecycle.ViewModelProviders.of(
-            this,
-            Injector.provideMyViewModelFactory(activity!!))
-            .get(SearchHistoryViewModel::class.java)
+                this,
+                Injector.provideMyViewModelFactory(activity!!))
+                .get(SearchHistoryViewModel::class.java)
     }
 
     private fun initLocationViewModel() {
@@ -111,6 +99,23 @@ class MainFragment : Fragment(),
                 processVisibility(mainFragmentProgressBar, it)
             })
         }
+    }
+
+    @ExperimentalStdlibApi
+    private fun populateWeatherInfo(it: CurrentWeather) {
+        weatherIcon.setImageResource(R.drawable.weather_sunny)
+        weatherLocationName.text = it.name
+        weatherDescription.text = it.weather[0].description.capitalize(Locale.getDefault())
+        weatherTemperature.text = getString(
+                R.string.weather_temperature,
+                kelvinToCelcius(it.temperature.temp))
+        weatherFeelsLike.text = getString(
+                R.string.weather_temperature_feels_like,
+                kelvinToCelcius(it.temperature.feelsLike))
+        weatherTemperatureMinMax.text = getString(
+                R.string.weather_temperature_min_max,
+                kelvinToCelcius(it.temperature.tempMax),
+                kelvinToCelcius(it.temperature.tempMin))
     }
 
     override fun onSearchQuerySubmit(query: String) {
