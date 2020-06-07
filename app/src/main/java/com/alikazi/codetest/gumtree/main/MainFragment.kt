@@ -10,10 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.models.CurrentWeather
 import com.alikazi.codetest.gumtree.models.SearchQuery
-import com.alikazi.codetest.gumtree.utils.Injector
-import com.alikazi.codetest.gumtree.utils.kelvinToCelcius
-import com.alikazi.codetest.gumtree.utils.performFadeOutFadeInAnimation
-import com.alikazi.codetest.gumtree.utils.showSnackbar
+import com.alikazi.codetest.gumtree.utils.*
 import com.alikazi.codetest.gumtree.viewmodels.LocationViewModel
 import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
 import com.alikazi.codetest.gumtree.viewmodels.WeatherViewModel
@@ -67,7 +64,9 @@ class MainFragment : Fragment(),
         })
 
         weatherViewModel.lastSearchedWeather.observe(this, Observer {
-            weatherDetailsContainer.performFadeOutFadeInAnimation { populateWeatherInfo(it) }
+            it?.let {
+                weatherDetailsContainer.performFadeOutFadeInAnimation { populateWeatherInfo(it) }
+            }
             processVisibility(weatherDetailsContainer, it != null)
             processVisibility(mainFragmentEmptyMessageTextView, it == null)
         })
@@ -119,6 +118,7 @@ class MainFragment : Fragment(),
     }
 
     override fun onSearchQuerySubmit(query: String) {
+        (activity as MainActivity).onBackPressed()
         weatherViewModel.fetchWeatherWithQuery(query)
         searchHistoryViewModel.saveQuery(SearchQuery(query))
     }

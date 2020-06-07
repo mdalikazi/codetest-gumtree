@@ -7,15 +7,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.test.espresso.IdlingResource
 import com.alikazi.codetest.gumtree.R
-import com.alikazi.codetest.gumtree.utils.Constants
-import com.alikazi.codetest.gumtree.utils.DLog
-import com.alikazi.codetest.gumtree.utils.Injector
-import com.alikazi.codetest.gumtree.utils.showAlertDialog
+import com.alikazi.codetest.gumtree.utils.*
 import com.alikazi.codetest.gumtree.viewmodels.LocationViewModel
 import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
 import com.facebook.stetho.Stetho
@@ -103,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         searchHistoryAdapter.setSearchHisoryItemClickListener(fragment)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commitNow()
     }
 
