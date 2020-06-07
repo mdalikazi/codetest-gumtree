@@ -1,14 +1,9 @@
 package com.alikazi.codetest.gumtree.utils
 
-import android.Manifest
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.IntentSender
-import android.content.pm.PackageManager
 import android.location.Location
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
-import com.alikazi.codetest.gumtree.R
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
@@ -29,6 +24,9 @@ class LocationHelper(private val activity: Activity) : LocationCallback() {
         for (location in result.locations) {
             DLog.d("onLocationResult")
             locationLiveData.postValue(location)
+            // Stop location updates after one hit.
+            // We dont need constant updates.
+            stopLocationUpdates()
         }
     }
 

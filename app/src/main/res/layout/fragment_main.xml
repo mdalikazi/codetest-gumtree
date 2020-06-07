@@ -4,8 +4,7 @@
     android:id="@+id/mainFragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:animateLayoutChanges="true">
+    android:orientation="vertical">
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -22,9 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/main_fragment_empty_message_default"/>
-    
+        android:text="@string/main_fragment_empty_message_default" />
+
     <LinearLayout
         android:id="@+id/weatherDetailsContainer"
         android:layout_width="match_parent"
@@ -46,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/largeMargin"
+            android:contentDescription="@null"
             android:src="@drawable/weather_sunny" />
 
         <TextView
@@ -81,6 +80,5 @@
             tools:text="16C / 6C" />
 
     </LinearLayout>
-
 
 </RelativeLayout>

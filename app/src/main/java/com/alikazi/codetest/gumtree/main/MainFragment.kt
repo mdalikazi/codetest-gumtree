@@ -55,10 +55,6 @@ class MainFragment : Fragment(),
             Injector.provideMyViewModelFactory(activity!!))
             .get(WeatherViewModel::class.java)
 
-        weatherViewModel.isRefreshing.observe(this, Observer {
-            mainFragmentProgressBar.visibility = processVisibility(it)
-        })
-
         weatherViewModel.errors.observe(this, Observer {
             it.let {
                 if (it is UnknownHostException) {
@@ -84,8 +80,12 @@ class MainFragment : Fragment(),
                     kelvinToCelcius(it.temperature.tempMax),
                     kelvinToCelcius(it.temperature.tempMin))
             }
-            weatherDetailsContainer.visibility = processVisibility(it != null)
-            mainFragmentEmptyMessageTextView.visibility = processVisibility(it == null)
+            processVisibility(weatherDetailsContainer, it != null)
+            processVisibility(mainFragmentEmptyMessageTextView, it == null)
+        })
+
+        weatherViewModel.isRefreshing.observe(this, Observer {
+            processVisibility(mainFragmentProgressBar, it)
         })
     }
 
@@ -98,20 +98,17 @@ class MainFragment : Fragment(),
 
     private fun initLocationViewModel() {
         activity?.let { activity ->
-            DLog.i("initLocationViewModel")
             locationViewModel = androidx.lifecycle.ViewModelProviders.of(
                     activity,
                     Injector.provideLocationViewModelFactory(activity))
                     .get(LocationViewModel::class.java)
+
             locationViewModel.location.observe(this, Observer { location ->
-                locationViewModel.setRefreshing(false)
-                // TODO
-                DLog.d("longitude ${location.longitude}")
-                DLog.d("latitude ${location.latitude}")
+                weatherViewModel.fetchWeatherWithLocation(location)
             })
 
             locationViewModel.isRefreshing.observe(this, Observer {
-                mainFragmentProgressBar.visibility = processVisibility(it)
+                processVisibility(mainFragmentProgressBar, it)
             })
         }
     }
@@ -134,5 +131,7 @@ class MainFragment : Fragment(),
         searchHistoryViewModel.deleteQuery(searchQuery)
     }
 
-    private fun processVisibility(shouldShow: Boolean): Int = if (shouldShow) View.VISIBLE else View.GONE
+    private fun processVisibility(view: View, shouldShow: Boolean) {
+        if (shouldShow) view.visibility = View.VISIBLE else view.visibility = View.GONE
+    }
 }
