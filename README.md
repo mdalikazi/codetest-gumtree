@@ -7,6 +7,9 @@
     I have used Google's MVVM architecture with Jetpack. For background work I have used Kotlin Coroutines. For caching data I have used Room database.
     - UI  
     I have completed all the functionality requirements of the challenge. This includes search by GPS, city name, zip code, maintain search history and delete search history.
+    - Progress Tracking
+    I created a Trello board, broke down the app in small chunks and filled the board with tasks before I started working on it. It helped me keep track of what's done and what's left to do.
+    https://trello.com/b/yWtiSHJV/gumtree-code-challenge
 
 * __What 3rd party libraries did I use and why?__
     - Retrofit (https://github.com/square/retrofit)  
@@ -21,11 +24,13 @@
     - I did not get enough time to write test for GPS functionality.
     
 * __Any known issues?__
-    - I did not use ConstraintLayout. Even though I have used ConstraintLayout before, I prefer to use RelativeLayout more. I understand the issue with this is the app can look not as good on tablets. Normally this does not become a huge issue.
+    - I noticed an intermittent issue with receiving last known location. The app keeps waiting for user's location, which for strange reason does not update even if you turn off Location and on again. It happened only few times to me. In a real app I would definitely investigate and fix this issue.
     - I have not come across any crashes. 
 
 * __What would I do if I had more time?__
-    - Add test for GPS functionality. Add unit tests.
+    - Add test for GPS functionality.
+    - Add unit tests.
+    - Add more comments to the code.
 
 ### Repo owner ###
 
