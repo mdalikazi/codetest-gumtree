@@ -16,7 +16,6 @@ import com.alikazi.codetest.gumtree.utils.showSnackbar
 import com.alikazi.codetest.gumtree.viewmodels.LocationViewModel
 import com.alikazi.codetest.gumtree.viewmodels.SearchHistoryViewModel
 import com.alikazi.codetest.gumtree.viewmodels.WeatherViewModel
-import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_main.*
 import java.net.UnknownHostException
 import java.util.*
@@ -105,9 +104,14 @@ class MainFragment : Fragment(),
                     Injector.provideLocationViewModelFactory(activity))
                     .get(LocationViewModel::class.java)
             locationViewModel.location.observe(this, Observer { location ->
+                locationViewModel.setRefreshing(false)
                 // TODO
                 DLog.d("longitude ${location.longitude}")
                 DLog.d("latitude ${location.latitude}")
+            })
+
+            locationViewModel.isRefreshing.observe(this, Observer {
+                mainFragmentProgressBar.visibility = processVisibility(it)
             })
         }
     }

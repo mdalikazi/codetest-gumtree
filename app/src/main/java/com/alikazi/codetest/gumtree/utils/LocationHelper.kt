@@ -1,23 +1,28 @@
 package com.alikazi.codetest.gumtree.utils
 
-import android.content.Context
+import android.Manifest
+import android.app.Activity
+import android.content.DialogInterface
+import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.location.Location
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnFailureListener
+import com.alikazi.codetest.gumtree.R
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
 
-class LocationHelper(context: Context) : LocationCallback() {
+class LocationHelper(private val activity: Activity) : LocationCallback() {
 
-    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+    val locationLiveData = MutableLiveData<Location>()
+
+    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
     private val locationRequest = LocationRequest.create().apply {
         interval = 10000
         fastestInterval = 5000
         priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
     }
-    val locationLiveData = MutableLiveData<Location>()
 
     override fun onLocationResult(result: LocationResult?) {
         result ?: return
@@ -29,19 +34,34 @@ class LocationHelper(context: Context) : LocationCallback() {
 
     fun startLocationUpdates() {
         DLog.i("startLocationUpdates")
-        /*fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            location?.let {
-                DLog.d("addOnSuccessListener")
-                locationLiveData.postValue(it)
-            }
-        }*/
-        fusedLocationClient.requestLocationUpdates(locationRequest, this, null)
-
+        checkLocationSettings()
     }
 
     fun stopLocationUpdates() {
         DLog.i("stopLocationUpdates")
         fusedLocationClient.removeLocationUpdates(this)
+    }
+
+    private fun checkLocationSettings() {
+        DLog.i("checkLocationSettings")
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        val client: SettingsClient = LocationServices.getSettingsClient(activity)
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+        task.addOnSuccessListener {
+            DLog.d("All location settings are satisfied")
+            fusedLocationClient.requestLocationUpdates(locationRequest, this, null)
+        }
+
+        task.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException){
+                try {
+                    DLog.d("Location settings are not satisfied")
+                    exception.startResolutionForResult(activity, Constants.REQUEST_CODE_LOCATION_SETTINGS)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Ignore the error.
+                }
+            }
+        }
     }
 
 }

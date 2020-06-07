@@ -1,5 +1,6 @@
 package com.alikazi.codetest.gumtree.utils
 
+import android.app.Activity
 import android.content.Context
 import com.alikazi.codetest.gumtree.database.AppDatabase
 import com.alikazi.codetest.gumtree.network.Repository
@@ -21,8 +22,8 @@ object Injector {
         return AppDatabase.getInstance(context)
     }
 
-    fun provideLocationViewModelFactory(context: Context): LocationViewModelFactory {
-        return LocationViewModelFactory(context)
+    fun provideLocationViewModelFactory(activity: Activity): LocationViewModelFactory {
+        return LocationViewModelFactory(activity)
     }
 
 }
