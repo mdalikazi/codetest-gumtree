@@ -48,6 +48,7 @@ fun Context.showAlertDialog(title: String?, message: String,
 
 fun View.performFadeOutFadeInAnimation(block: () -> Unit) {
     val abc = AnimatorSet()
+    abc.setTarget(this)
     val fadeIn = ObjectAnimator.ofFloat(this, View.ALPHA, 0f, 1f)
             .setDuration(Constants.DEFAULT_ANIMATION_DURATION)
     val fadeOut = ObjectAnimator.ofFloat(this, View.ALPHA, 1f, 0f)
@@ -58,7 +59,6 @@ fun View.performFadeOutFadeInAnimation(block: () -> Unit) {
         }
 
         override fun onAnimationEnd(animation: Animator?) {
-            DLog.i("onAnimationEnd")
             block()
         }
 
