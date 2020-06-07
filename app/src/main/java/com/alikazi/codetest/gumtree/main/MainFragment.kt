@@ -64,7 +64,9 @@ class MainFragment : Fragment(),
         })
 
         weatherViewModel.lastSearchedWeather.observe(this, Observer {
-            weatherDetailsContainer.performFadeOutFadeInAnimation { populateWeatherInfo(it) }
+            it?.let {
+                weatherDetailsContainer.performFadeOutFadeInAnimation { populateWeatherInfo(it) }
+            }
             processVisibility(weatherDetailsContainer, it != null)
             processVisibility(mainFragmentEmptyMessageTextView, it == null)
         })
@@ -116,6 +118,7 @@ class MainFragment : Fragment(),
     }
 
     override fun onSearchQuerySubmit(query: String) {
+        (activity as MainActivity).onBackPressed()
         weatherViewModel.fetchWeatherWithQuery(query)
         searchHistoryViewModel.saveQuery(SearchQuery(query))
     }

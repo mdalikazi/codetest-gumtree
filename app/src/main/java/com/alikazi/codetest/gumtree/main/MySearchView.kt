@@ -12,6 +12,7 @@ import com.alikazi.codetest.gumtree.R
 import com.alikazi.codetest.gumtree.utils.Constants
 import com.alikazi.codetest.gumtree.utils.DLog
 import com.alikazi.codetest.gumtree.utils.circularRevealAnimation
+import java.lang.Exception
 
 class MySearchView(private val activity: Activity,
                    private val revealToolbar: Toolbar) {
@@ -71,8 +72,13 @@ class MySearchView(private val activity: Activity,
     }
 
     fun animateSearchView(reveal: Boolean) {
-        searchViewEventsListener?.onSearchViewExpandedOrCollapsed(reveal)
-        activity.circularRevealAnimation(revealToolbar, 0, true, reveal)
+        try {
+            searchViewEventsListener?.onSearchViewExpandedOrCollapsed(reveal)
+            activity.circularRevealAnimation(revealToolbar, 0, true, reveal)
+        } catch (e: IllegalStateException) {
+            searchView.clearFocus()
+            DLog.w("Exception in animateSearchView: ${e.message}")
+        }
     }
 
     fun getSearchMenuItem(): MenuItem? {
@@ -80,8 +86,14 @@ class MySearchView(private val activity: Activity,
     }
 
     interface SearchViewEventsListener {
+        /**
+         * Triggered when user presses Enter on keyboard
+         */
         fun onSearchQuerySubmit(query: String)
 
+        /**
+         * Triggered when search view is opened or closed with animation
+         */
         fun onSearchViewExpandedOrCollapsed(expanded: Boolean)
     }
 
