@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground"
+    android:background="@color/design_default_color_surface"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/TextSecondary18"
+        android:id="@+id/queryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/mediumMargin"
+        android:paddingStart="@dimen/mediumMargin"
+        android:paddingEnd="20dp"
+        android:paddingBottom="@dimen/mediumMargin"
+        tools:text="Sydney" />
+
+    <ImageView
+        android:id="@+id/queryRemoveImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smallMargin"
+        android:layout_marginEnd="@dimen/mediumMargin"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_clear" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorDivider" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorDivider" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:background="@color/colorDivider" />
+
+</RelativeLayout>
