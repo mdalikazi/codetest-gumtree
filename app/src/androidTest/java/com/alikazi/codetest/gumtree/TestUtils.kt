@@ -32,6 +32,10 @@ fun getMockWeather(): CurrentWeather {
     )
 }
 
+fun getMockCityName(): String = "Miami"
+
+fun getMockZipCode(): String = "10021"
+
 fun getMockSearchQuery(): SearchQuery {
     return SearchQuery("Wichita")
 }
