@@ -4,8 +4,7 @@
     android:id="@+id/mainFragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:animateLayoutChanges="true">
+    android:orientation="vertical">
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -22,14 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="@string/main_fragment_empty_message_default"/>
-    
+        android:text="@string/main_fragment_empty_message_default" />
+
     <LinearLayout
         android:id="@+id/weatherDetailsContainer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -38,21 +37,22 @@
             android:id="@+id/weatherLocationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="@dimen/largeMargin"
             tools:text="Sydney" />
 
         <ImageView
             android:id="@+id/weatherIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:src="@drawable/weather_sunny" />
+            android:layout_marginBottom="@dimen/largeMargin"
+            android:contentDescription="@null"
+            tools:src="@drawable/weather_sunny" />
 
         <TextView
             android:id="@+id/weatherDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/smallMargin"
             android:textSize="16sp"
             tools:text="Sunny" />
 
@@ -69,18 +69,17 @@
             android:id="@+id/weatherFeelsLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/smallMargin"
             tools:text="Feels like 9C" />
 
         <TextView
             android:id="@+id/weatherTemperatureMinMax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/smallMargin"
             android:textSize="16sp"
             tools:text="16C / 6C" />
 
     </LinearLayout>
-
 
 </RelativeLayout>

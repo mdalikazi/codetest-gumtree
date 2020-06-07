@@ -4,6 +4,9 @@ object Constants {
 
     const val LOG_TAG = "GUMTREE"
     const val DECIMAL_FORMAT = "#.##"
+    const val DEFAULT_ANIMATION_DURATION = 300L
+    const val REQUEST_CODE_PERMISSION_COARSE_LOCATION = 1000
+    const val REQUEST_CODE_LOCATION_SETTINGS = 1001
 
     // api.openweathermap.org/data/2.5/weather?q=London&appid={your api key}
     const val API_KEY = "a8a34976ac87e55b0cc5917b12c96869"

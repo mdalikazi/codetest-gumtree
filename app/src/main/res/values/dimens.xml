@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <dimen name="smallMargin">6dp</dimen>
+    <dimen name="mediumMargin">8dp</dimen>
+    <dimen name="largeMargin">12dp</dimen>
+    <dimen tools:override="true" name="abc_action_button_min_width_material">48dp</dimen>
+    <dimen tools:override="true" name="abc_action_button_min_width_overflow_material">36dp</dimen>
+
+</resources>

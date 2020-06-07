@@ -71,6 +71,7 @@ class MySearchView(private val activity: Activity,
     }
 
     fun animateSearchView(reveal: Boolean) {
+        searchViewEventsListener?.onSearchViewExpandedOrCollapsed(reveal)
         activity.circularRevealAnimation(revealToolbar, 0, true, reveal)
     }
 
@@ -80,6 +81,8 @@ class MySearchView(private val activity: Activity,
 
     interface SearchViewEventsListener {
         fun onSearchQuerySubmit(query: String)
+
+        fun onSearchViewExpandedOrCollapsed(expanded: Boolean)
     }
 
 }

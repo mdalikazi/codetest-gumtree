@@ -15,6 +15,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="AppTheme.DialogOverlay" parent="ThemeOverlay.AppCompat.Dialog.Alert" />
+
     <style name="TextSecondary">
         <item name="android:gravity">center</item>
         <item name="android:textColor">?android:textColorSecondary</item>
